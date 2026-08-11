@@ -1,0 +1,33 @@
+<?php
+session_start();
+
+// 1. Se o usuário não estiver autenticado, redireciona para o login
+if (!isset($_SESSION["usuario"])) {
+    header("Location: login.php");
+    exit;
+}
+
+// 2. Se o usuário estiver autenticado, mas o perfil NÃO for administrador
+if ($_SESSION["perfil"] !== "administrador") {
+    echo "Acesso negado. Apenas administradores podem acessar esta página.";
+    echo "<br><br>";
+    echo '<a href="home.php">Voltar para a página inicial</a>';
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Usuários</title>
+</head>
+<body>
+    <h1>Painel de Usuários</h1>
+    <p>Bem-vindo ao painel administrativo, <?= htmlspecialchars($_SESSION["nome"]) ?>!</p>
+    
+    <!-- Conteúdo exclusivo do administrador aqui -->
+
+    <br>
+    <a href="home.php">Voltar</a> | <a href="logout.php">Sair</a>
+</body>
+</html>
